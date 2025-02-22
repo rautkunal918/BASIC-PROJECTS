@@ -1,0 +1,75 @@
+let user_score = 0;
+let com_score = 0;
+
+const msg1 = document.querySelector("#msg");
+const choices = document.querySelectorAll(".choice");
+const userscorep = document.querySelector("#user_score")
+const compscorep = document.querySelector("#com_score")
+
+const gencompchoice = () => {
+    //rock paper secssior
+    const opt = ["rock", "paper", "scessior"];
+    let randIdx = Math.floor(Math.random() * 3);
+    return opt[randIdx];
+}
+
+let com = 0;
+let user = 0;
+
+const drawgame = () => {
+    console.log("Game was draw ");
+    msg1.innerText = "Game Draw play again ";
+    msg1.style.backgroundColor = " rgb(15, 5, 48)";
+
+};
+
+const showinner = (userwin, userchoice, compchoice) => {
+    if (userwin) {
+        user_score++;
+        userscorep.innerText = user_score;
+        msg1.innerText = `YOU WIN ${userchoice} beats ${compchoice}`;
+        msg1.style.backgroundColor = "green";
+
+    } else {
+        com_score++;
+        compscorep.innerText = com_score;
+        msg1.innerText = `YOU LOSE ${compchoice} beats ${userchoice}`;
+        msg1.style.backgroundColor = "red";
+
+    }
+
+};
+
+
+const playgame = (userchoice) => {
+    console.log("user choice ", userchoice);
+
+    const compchoice = gencompchoice();
+    console.log("comp choice", compchoice);
+
+
+    if (userchoice === compchoice) {
+        // draw 
+        drawgame();
+    } else {
+        let userwin = true;
+        if (userchoice === "rock") {
+            userwin = compchoice === "paper" ? false : true;
+        } else if (userchoice === "paper") {
+            userwin = compchoice === "scessiors" ? false : true;
+        } else {
+            userwin = compchoice === "rock" ? false : true;
+        }
+        showinner(userwin, userchoice, compchoice);
+    }
+};
+
+choices.forEach((choice) => {
+    console.log(choice);
+    choice.addEventListener("click", () => {
+        const userchoice = choice.getAttribute("id")
+        console.log("choice was clicked", userchoice)
+        playgame(userchoice);
+
+    });
+});
